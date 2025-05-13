@@ -47,6 +47,9 @@ spec:
         {{- with .Values.langflow.frontend.volumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        - name: nginx-config
+          configMap:
+            name: {{ include "langflow.fullname" . }}-frontend-nginx-config
         - name: nginx
           emptyDir: {}
         - name: nginx-cache
@@ -70,7 +73,9 @@ spec:
             {{- with .Values.langflow.frontend.volumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
             - name: nginx
               mountPath: "/tmp/nginx"
               readOnly: false

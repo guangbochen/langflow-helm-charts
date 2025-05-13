@@ -50,7 +50,7 @@ podSecurityContext:
 langflow:
   global:
     image:
-      tag: "latest"
+      tag: "1.4.1"
   backend:
     replicaCount: 1
     service:
@@ -61,7 +61,7 @@ langflow:
     image:
       repository: langflowai/langflow
       imagePullPolicy: IfNotPresent
-      tag: latest
+      tag: 1.4.1
     command:
       - python
       - -m
@@ -79,9 +79,9 @@ langflow:
       #   memory: 1Gi
     probe:
       failureThreshold: 3
-      periodSeconds: 10
+      periodSeconds: 15
       timeoutSeconds: 5
-      initialDelaySeconds: 5
+      initialDelaySeconds: 30
     env:
       - name: LANGFLOW_PORT
         value: "7860"
@@ -116,17 +116,23 @@ langflow:
     externalDatabase:
       # Compose in the SQLAlchemy format:
       # https://docs.sqlalchemy.org/en/20/core/engines.html#database-urls
-      enabled: false
-      driver: {}
-        # value: "postgresql"
-      port: {}
-      user: {}
-      password: {}
+      enabled: true
+      driver:
+        value: "postgresql"
+      host:
+        value: "langflow-postgresql.langflow"
+      port:
+        value: "5432"
+      user:
+        value: "langflow"
+      password:
+        value: "langflow"
         # valueFrom:
         #   secretKeyRef:
         #    key: password
         #    name: <secret-name>
-      database: {}
+      database:
+        value: "langflow"
 
     volumes:
       - name: flows
@@ -153,7 +159,7 @@ langflow:
         readOnly: false
 
     sqlite:
-      enabled: true
+      enabled: false
       volume:
         size: "1Gi"
         existingStorageClassName: "default"
@@ -199,12 +205,13 @@ langflow:
     enabled: true
     replicaCount: 1
     service:
-      type: ClusterIP
+      type: NodePort
       port: 8080
+      nodePort: 30080
     image:
       repository: langflowai/langflow-frontend
       imagePullPolicy: IfNotPresent
-      tag: latest
+      tag: 1.4.1
     resources:
       requests:
         cpu: 0.3
@@ -216,7 +223,7 @@ langflow:
       failureThreshold: 3
       periodSeconds: 10
       timeoutSeconds: 5
-      initialDelaySeconds: 5
+      initialDelaySeconds: 15
     nodeSelector: {}
 
     tolerations: []
@@ -237,4 +244,20 @@ secretProvider:
   enabled: false
 
 postgresql:
-  enabled: false
+  enabled: true
+  auth:
+    ## @param auth.enablePostgresUser Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user
+    ##
+    enablePostgresUser: true
+    ## @param auth.postgresPassword Password for the "postgres" admin user. Ignored if `auth.existingSecret` is provided
+    ##
+    postgresPassword: "langflow"
+    ## @param auth.username Name for a custom user to create
+    ##
+    username: "langflow"
+    ## @param auth.password Password for the custom user to create. Ignored if `auth.existingSecret` is provided
+    ##
+    password: "langflow"
+    ## @param auth.database Name for a custom database to create
+    ##
+    database: "langflow"
