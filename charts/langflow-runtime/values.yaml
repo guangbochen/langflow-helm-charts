@@ -7,11 +7,12 @@ image:
 
 downloadFlows:
   path: /app/flows
-#  flows:
+  flows:
 #    - url: https://raw.githubusercontent.com/langflow-ai/langflow/dev/tests/data/basic_example.json
-#      basicAuth: "myuser:mypassword"
-#      headers:
-#        Authorization: "Bearer my-key"
+    - url: https://llmos-dev-s3.oss-cn-shenzhen.aliyuncs.com/gc-dev/basic_example.json?x-oss-credential=LTAI5tCCZZNCABzZAPootmfE%2F20250524%2Fcn-shenzhen%2Foss%2Faliyun_v4_request&x-oss-date=20250524T035920Z&x-oss-expires=3600&x-oss-signature-version=OSS4-HMAC-SHA256&x-oss-signature=bd08653d88b81d2837b42907b19711b20092d89892051c1e297f2f96c4dc5510
+      basicAuth: "myuser:mypassword"
+      headers:
+        Authorization: "Bearer my-key"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -103,6 +104,10 @@ livenessProbe:
     path: /api/v1/version
     port: http
 readinessProbe:
+  initialDelaySeconds: 30
+  failureThreshold: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
   httpGet:
     path: /api/v1/version
     port: http

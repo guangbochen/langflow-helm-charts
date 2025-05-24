@@ -81,7 +81,7 @@ langflow:
       failureThreshold: 3
       periodSeconds: 15
       timeoutSeconds: 5
-      initialDelaySeconds: 30
+      initialDelaySeconds: 50
     env:
       - name: LANGFLOW_PORT
         value: "7860"
@@ -205,7 +205,7 @@ langflow:
     enabled: true
     replicaCount: 1
     service:
-      type: NodePort
+      type: LoadBalancer
       port: 8080
       nodePort: 30080
     image:

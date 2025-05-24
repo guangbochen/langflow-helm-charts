@@ -34,20 +34,12 @@ data:
 
             listen ${FRONTEND_PORT};
 
-            location /proxy {
-                alias /usr/share/nginx/html;
-                index index.html index.htm;
-                try_files $uri $uri/ /index.html =404;
-                expires 1d;
-                add_header Cache-Control "public";
-            }
-
             location / {
-                root /usr/share/nginx/html;
-                index index.html index.htm;
-                try_files $uri $uri/ /index.html =404;
-                expires 1d;
-                add_header Cache-Control "public";
+              root /usr/share/nginx/html;
+              index index.html index.htm;
+              try_files $uri $uri/ /index.html =404;
+              expires 1d;
+              add_header Cache-Control "public";
             }
 
             location = /index.html {
