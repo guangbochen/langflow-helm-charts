@@ -9,7 +9,7 @@ downloadFlows:
   path: /app/flows
   flows:
 #    - url: https://raw.githubusercontent.com/langflow-ai/langflow/dev/tests/data/basic_example.json
-    - url: https://llmos-dev-s3.oss-cn-shenzhen.aliyuncs.com/gc-dev/basic_example.json?x-oss-credential=LTAI5tCCZZNCABzZAPootmfE%2F20250524%2Fcn-shenzhen%2Foss%2Faliyun_v4_request&x-oss-date=20250524T035920Z&x-oss-expires=3600&x-oss-signature-version=OSS4-HMAC-SHA256&x-oss-signature=bd08653d88b81d2837b42907b19711b20092d89892051c1e297f2f96c4dc5510
+    - url: https://llmos-dev-s3.oss-cn-shenzhen.aliyuncs.com/gc-dev/basic_example.json?x-oss-credential=LTAI5tCCZZNCABzZAPootmfE%2F20250524%2Fcn-shenzhen%2Foss%2Faliyun_v4_request&x-oss-date=20250524T122351Z&x-oss-expires=32400&x-oss-signature-version=OSS4-HMAC-SHA256&x-oss-signature=e9e7f513f99b82f874fafd017b6fdff17c03d4e5c94a32f66e132248365fe2db
       basicAuth: "myuser:mypassword"
       headers:
         Authorization: "Bearer my-key"
